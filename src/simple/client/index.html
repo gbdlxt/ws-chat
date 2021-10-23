@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Websocket</title>
+        <link rel="stylesheet" href="./css/base.css">
+    </head>
+    <body>
+        <h1>Websocket</h1>
+        <div id="chatContent"></div>
+        <textarea id="inputMsg" rows="5"></textarea>
+        <button id="sendBtn">Send</button>
+    </body>
+</html>
+<script>
+let msgHistory = [];
+const name = 'Alice';
+let ws = initWsClient();
+
+sendBtn.addEventListener('click', ()=> {
+    let obj= {
+        date: new Date(),
+        msg: inputMsg.value
+    };
+    msgHistory.push(obj);
+    ws.send(JSON.stringify(obj));
+    chatContent.innerHTML = render();
+});
+
+function render() {
+    let content = [];
+    msgHistory.forEach(item => {
+        content.push(`<h4>${name}  <small>${item.date}</small></h4><p>${item.msg}</p>`);
+    });
+    return content.join('');
+}
+
+function initWsClient() {
+    let ws = new WebSocket('ws://localhost:9990', 'echo-protocol');
+    ws.onopen = (e)=> {
+        ws.send(JSON.stringify('1111111111111111111111111111'));
+        console.log('[open] send msg', e);
+    }
+    ws.onmessage = (e)=> {
+        const data = e.data;
+        console.log('[onmessage] received data', e);
+    }
+    ws.onclose = (e)=> {
+        console.log('[onclose] close', e);
+    }
+    ws.onerror = (e)=> {
+        console.log('[onerror] error', e);
+    }
+    return ws;
+}
+
+
+
+</script>

@@ -1,0 +1,45 @@
+@charset "utf-8";
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+fieldset, img,input,button { border:none; outline-style:none; }
+ul, ol, li { list-style:none; }
+select, input { vertical-align:middle;}
+select, input, textarea { font-size:inherit; }
+textarea { resize:none; }
+img {border:0; vertical-align:middle; }
+table { border-collapse:collapse; border-spacing: 0; }
+a { cursor: pointer;text-decoration: none; white-space: nowrap; }
+html,
+body {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 12px;
+}
+
+#chatContent {
+    height: 300px; 
+    border: 1px solid #ccc;
+    padding: 24px;
+    overflow: auto;
+}
+#inputMsg {
+    margin: 24px 0;
+    padding: 24px;
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+#sendBtn {
+    border: 1px solid #ccc;
+    background-color: #4a90e2;
+    color: #fff;
+    height: 48px;
+    width: 120px;
+    cursor: pointer;
+    text-align: center;
+}
