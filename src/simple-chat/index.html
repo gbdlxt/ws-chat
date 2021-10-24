@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ws chat room</title>
+    </head>
+    <body>
+        name:<input id="nameInput">
+        <button id="loginBtn">登录</button>
+        <button id="logoutBtn">注销</button>
+        <div id="chatContent" style="background-color: antiquewhite;height: 300px;"></div>
+        input:<input id="chatInput">
+        <button id="sendBtn">发送</button>
+    </body>
+</html>
+<script>
+let server = 'ws://localhost:9990';
+let subProt = 'chat';
+let ws = null;
+
+loginBtn.addEventListener('click',()=>openWebsocket(nameInput.value));
+logoutBtn.addEventListener('click', ()=> ws.close());
+sendBtn.addEventListener('click', ()=> send());
+
+function openWebsocket(name) {
+    console.log('[Client login]', name);
+    ws = new WebSocket(server, subProt);
+    ws.onopen = ()=> ws.send(JSON.stringify({name: name}));
+    ws.onclose = ()=> console.log('[Client logout] success');
+
+    ws.onmessage = (e)=> {
+        console.log('[Client onmessage]', e);
+        render(JSON.parse(e.data));
+    };
+}
+
+function send() {
+    let msg = {
+        date: new Date(),
+        msg: chatInput.value,
+        name: nameInput.value
+    };
+    console.log('[Client send]', msg);
+    ws.send(JSON.stringify(msg));
+    render(msg);
+}
+
+function render(msg) {
+    let content = document.createElement('p');
+    content.innerHTML = `${msg.name} - ${msg.date}<br>${msg.msg}`;
+    chatContent.appendChild(content);
+}
+</script>
